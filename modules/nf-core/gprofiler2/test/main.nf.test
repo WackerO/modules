@@ -9,17 +9,20 @@ nextflow_process {
     tag "gprofiler2/gost"
 
     test("test_gprofiler2_gost") {
-
+        config "./nextflow.config"
         when {
             params {
                 outdir = "$outputDir"
+                contrast_variable = "test"
             }
             process {
                 """
-                input[0] = [
-                    [ id:'test', reference:'r', target:'t' ], // meta map
+                input[0] = [ id:'test', variable: 'c', reference:'r', target:'t' ]    // contrast info
+                input[1] = [
+                    [ id:'test', reference:'r', target:'t' ],           // meta map
                     file(params.test_data['mus_musculus']['genome']['deseq_results'], checkIfExists: true)
                 ]
+                input[2] = []                                           // no background
                 """
             }
         }
